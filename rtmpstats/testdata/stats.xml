@@ -15,83 +15,83 @@
     <application>
       <name>live</name>
       <live>
-      <stream>
-        <name>streamName</name>
-        <time>500003</time>
-        <bw_in>2333128</bw_in>
-        <bytes_in>129733847</bytes_in>
-        <bw_out>6999400</bw_out>
-        <bytes_out>238916032</bytes_out>
-        <bw_audio>106920</bw_audio>
-        <bw_video>2226200</bw_video>
-        <client>
-          <id>51</id>
-          <address>1.1.1.51</address>
-          <time>36310</time>
-          <flashver>WIN 32,0,0,403</flashver>
-          <pageurl>http://localhost/watch</pageurl>
-          <swfurl>https://vjs.zencdn.net/swf/5.4.2/video-js.swf</swfurl>
-          <dropped>0</dropped>
-          <avsync>-12</avsync>
-          <timestamp>499599</timestamp>
-          <active/>
-        </client>
-        <client>
-          <id>15</id>
-          <address>1.1.1.15</address>
-          <time>371856</time>
-          <flashver>MAC 32,0,0,403</flashver>
-          <pageurl>http://localhost/watch</pageurl>
-          <swfurl>https://vjs.zencdn.net/swf/5.4.2/video-js.swf</swfurl>
-          <dropped>0</dropped>
-          <avsync>-12</avsync>
-          <timestamp>499599</timestamp>
-          <active/>
-        </client>
-        <client>
-          <id>3</id>
-          <address>127.0.0.1</address>
-          <time>496931</time>
-          <flashver>LNX 9,0,124,2</flashver>
-          <dropped>0</dropped>
-          <avsync>-12</avsync>
-          <timestamp>499599</timestamp>
-          <active/>
-        </client>
-        <client>
-          <id>1</id>
-          <address>1.1.1.1</address>
-          <time>500278</time>
-          <flashver>FMLE/3.0 (compatible; FMSc/1.0)</flashver>
-          <swfurl>rtmp://localhost/live</swfurl>
-          <dropped>0</dropped>
-          <avsync>-12</avsync>
-          <timestamp>499599</timestamp>
+        <stream>
+          <name>streamName</name>
+          <time>500003</time>
+          <bw_in>2333128</bw_in>
+          <bytes_in>129733847</bytes_in>
+          <bw_out>6999400</bw_out>
+          <bytes_out>238916032</bytes_out>
+          <bw_audio>106920</bw_audio>
+          <bw_video>2226200</bw_video>
+          <client>
+            <id>51</id>
+            <address>1.1.1.51</address>
+            <time>36310</time>
+            <flashver>WIN 32,0,0,403</flashver>
+            <pageurl>http://localhost/watch</pageurl>
+            <swfurl>https://vjs.zencdn.net/swf/5.4.2/video-js.swf</swfurl>
+            <dropped>0</dropped>
+            <avsync>-12</avsync>
+            <timestamp>499599</timestamp>
+            <active/>
+          </client>
+          <client>
+            <id>15</id>
+            <address>1.1.1.15</address>
+            <time>371856</time>
+            <flashver>MAC 32,0,0,403</flashver>
+            <pageurl>http://localhost/watch</pageurl>
+            <swfurl>https://vjs.zencdn.net/swf/5.4.2/video-js.swf</swfurl>
+            <dropped>0</dropped>
+            <avsync>-12</avsync>
+            <timestamp>499599</timestamp>
+            <active/>
+          </client>
+          <client>
+            <id>3</id>
+            <address>127.0.0.1</address>
+            <time>496931</time>
+            <flashver>LNX 9,0,124,2</flashver>
+            <dropped>0</dropped>
+            <avsync>-12</avsync>
+            <timestamp>499599</timestamp>
+            <active/>
+          </client>
+          <client>
+            <id>1</id>
+            <address>1.1.1.1</address>
+            <time>500278</time>
+            <flashver>FMLE/3.0 (compatible; FMSc/1.0)</flashver>
+            <swfurl>rtmp://localhost/live</swfurl>
+            <dropped>0</dropped>
+            <avsync>-12</avsync>
+            <timestamp>499599</timestamp>
+            <publishing/>
+            <active/>
+          </client>
+          <meta>
+            <video>
+              <width>1920</width>
+              <height>1080</height>
+              <frame_rate>30</frame_rate>
+              <codec>H264</codec>
+              <profile>High</profile>
+              <compat>0</compat>
+              <level>4.0</level>
+            </video>
+            <audio>
+              <codec>AAC</codec>
+              <profile>LC</profile>
+              <channels>2</channels>
+              <sample_rate>44100</sample_rate>
+            </audio>
+          </meta>
+          <nclients>4</nclients>
           <publishing/>
           <active/>
-        </client>
-        <meta>
-          <video>
-            <width>1920</width>
-            <height>1080</height>
-            <frame_rate>30</frame_rate>
-            <codec>H264</codec>
-            <profile>High</profile>
-            <compat>0</compat>
-            <level>4.0</level>
-          </video>
-          <audio>
-            <codec>AAC</codec>
-            <profile>LC</profile>
-            <channels>2</channels>
-            <sample_rate>44100</sample_rate>
-          </audio>
-        </meta>
-        <nclients>4</nclients>
-        <publishing/>
-        <active/>
         </stream>
-      <nclients>4</nclients>
+        <nclients>4</nclients>
       </live>
     </application>
   </server>
