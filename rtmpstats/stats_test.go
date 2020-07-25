@@ -60,7 +60,7 @@ func TestUnmarshal(t *testing.T) {
 
 				Clients: []Client{
 					{
-						ID:            51,
+						ID:            "51",
 						Address:       "1.1.1.51",
 						Uptime:        time.Millisecond * 36310,
 						FlashVersion:  "WIN 32,0,0,403",
@@ -70,9 +70,10 @@ func TestUnmarshal(t *testing.T) {
 						AVSync:        -12,
 						Timestamp:     time.Millisecond * 499599,
 						Active:        true,
+						EntriesCount:  1,
 					},
 					{
-						ID:            15,
+						ID:            "15",
 						Address:       "1.1.1.15",
 						Uptime:        time.Millisecond * 371856,
 						FlashVersion:  "MAC 32,0,0,403",
@@ -82,9 +83,10 @@ func TestUnmarshal(t *testing.T) {
 						AVSync:        -12,
 						Timestamp:     time.Millisecond * 499599,
 						Active:        true,
+						EntriesCount:  1,
 					},
 					{
-						ID:            3,
+						ID:            "3",
 						Address:       "127.0.0.1",
 						Uptime:        time.Millisecond * 496931,
 						FlashVersion:  "LNX 9,0,124,2",
@@ -92,9 +94,10 @@ func TestUnmarshal(t *testing.T) {
 						AVSync:        -12,
 						Timestamp:     time.Millisecond * 499599,
 						Active:        true,
+						EntriesCount:  1,
 					},
 					{
-						ID:            1,
+						ID:            "1",
 						Address:       "1.1.1.1",
 						Uptime:        time.Millisecond * 500278,
 						FlashVersion:  "FMLE/3.0 (compatible; FMSc/1.0)",
@@ -104,6 +107,7 @@ func TestUnmarshal(t *testing.T) {
 						Timestamp:     time.Millisecond * 499599,
 						Publishing:    true,
 						Active:        true,
+						EntriesCount:  1,
 					},
 				},
 			}},

@@ -25,6 +25,7 @@ type Stats struct {
 	Applications     []Application `xml:"server>application"`
 }
 
+// UnmarshalXML overrides the default unmarshaling behavior.
 func (s *Stats) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	type plain Stats
 
@@ -86,6 +87,7 @@ type Stream struct {
 	Clients []Client `xml:"client"`
 }
 
+// UnmarshalXML overrides the default unmarshaling behavior.
 func (s *Stream) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	type plain Stream
 
@@ -109,7 +111,7 @@ func (s *Stream) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 
 // Client holds client-specific statistics.
 type Client struct {
-	ID            int           `xml:"id"`
+	ID            string        `xml:"id"`
 	Address       string        `xml:"address"`
 	Uptime        time.Duration `xml:"time"`
 	FlashVersion  string        `xml:"flashver"`
@@ -120,8 +122,45 @@ type Client struct {
 	Timestamp     time.Duration `xml:"timestamp"`
 	Active        bool          `xml:"active"`
 	Publishing    bool          `xml:"publishing"`
+
+	// If post-mutation more than one client has the same ID, they will be summed
+	// together and this field will include how many duplicates there were. A
+	// value of 1 indicates that this is the only client with this ID.
+	EntriesCount int `xml:"-"`
 }
 
+// Add returns the result of summing the local client with another client. The
+// addition logic will sum dropped frames. Booleans will be true if either value
+// is true. The oldest timestamps are used as a result of the sum. Other values
+// will be copied from the source client.
+func (c Client) Add(other Client) Client {
+	uptime := c.Uptime
+	if other.Uptime > c.Uptime {
+		uptime = other.Uptime
+	}
+
+	timestamp := c.Timestamp
+	if other.Timestamp > c.Timestamp {
+		timestamp = other.Timestamp
+	}
+
+	return Client{
+		ID:            c.ID,
+		Address:       c.Address,
+		Uptime:        uptime,
+		FlashVersion:  c.FlashVersion,
+		PageURL:       c.PageURL,
+		SWFURL:        c.SWFURL,
+		DroppedFrames: c.DroppedFrames + other.DroppedFrames,
+		AVSync:        c.AVSync,
+		Timestamp:     timestamp,
+		Active:        c.Active || other.Active,
+		Publishing:    c.Publishing || other.Publishing,
+		EntriesCount:  c.EntriesCount + other.EntriesCount,
+	}
+}
+
+// UnmarshalXML overrides the default unmarshaling behavior.
 func (c *Client) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	type plain Client
 
@@ -142,17 +181,25 @@ func (c *Client) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	c.Timestamp = time.Duration(stats.Timestamp)
 	c.Active = bool(stats.Active)
 	c.Publishing = bool(stats.Publishing)
+	c.EntriesCount = 1
 	return nil
 }
 
-func Unmarshal(r io.Reader) (*Stats, error) {
-	var (
-		s   Stats
-		err error
-	)
-
+// Unmarshal unmarshals data from the given io.Reader into a Stats struct.
+// A set of mutators can optionally be applied at unmarshal time.
+func Unmarshal(r io.Reader, muts ...Mutator) (*Stats, error) {
 	dec := xml.NewDecoder(r)
 
-	err = dec.Decode(&s)
-	return &s, err
+	var s Stats
+	if err := dec.Decode(&s); err != nil {
+		return nil, err
+	}
+
+	for _, mut := range muts {
+		if err := mut(&s); err != nil {
+			return nil, err
+		}
+	}
+
+	return &s, nil
 }
