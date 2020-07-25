@@ -50,6 +50,10 @@ type Exporter struct {
 	streamTxTotal       *prometheus.Desc
 	streamClients       *prometheus.Desc
 	streamInfo          *prometheus.Desc
+
+	// client stats
+	clientUptimeSeconds *prometheus.Desc
+	clientCount         *prometheus.Desc
 }
 
 // New creates a new Exporter.
@@ -129,6 +133,19 @@ func New(cfg Config, logger log.Logger, mutators ...rtmpstats.Mutator) *Exporter
 			[]string{"application", "stream", "publisher", "video_resolution", "frame_rate", "video_codec", "audio_codec", "audio_channels", "audio_sample_rate"},
 			nil,
 		),
+
+		clientUptimeSeconds: prometheus.NewDesc(
+			prometheus.BuildFQName("rtmp", "client", "uptime_seconds"),
+			"Total amount of time a client viewed with a stream",
+			[]string{"application", "stream", "client"},
+			nil,
+		),
+		clientCount: prometheus.NewDesc(
+			prometheus.BuildFQName("rtmp", "client", "count"),
+			"Client count for a specific stream",
+			[]string{"application", "stream", "client"},
+			nil,
+		),
 	}
 }
 
@@ -176,6 +193,15 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 				fmt.Sprintf("%dx%d", stream.VideoWidth, stream.VideoHeight), fmt.Sprintf("%d", stream.VideoFramerate), stream.VideoCodec,
 				stream.AudioCodec, fmt.Sprintf("%d", stream.AudioChannels), fmt.Sprintf("%d", stream.AudioSampleRate),
 			)
+
+			for _, cli := range stream.Clients {
+				if cli.Publishing {
+					continue
+				}
+
+				ch <- prometheus.MustNewConstMetric(e.clientUptimeSeconds, prometheus.CounterValue, cli.Uptime.Seconds(), app.Name, stream.Name, cli.ID)
+				ch <- prometheus.MustNewConstMetric(e.clientCount, prometheus.GaugeValue, float64(cli.EntriesCount), app.Name, stream.Name, cli.ID)
+			}
 		}
 	}
 }
